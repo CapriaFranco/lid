@@ -1,0 +1,30 @@
+# Dependencies and generated output
+node_modules/
+.next*/
+.vercel/
+out/
+build/
+dist/
+coverage/
+*.tsbuildinfo
+
+# Local environment files. Only the blank template is tracked.
+.env
+.env.*
+!.env.example
+
+# Local-only planning and source material
+PENDIENTES.md
+VIT-Pormenorizado-*.pdf
+VIT Pormenorizado 2026.md
+vit-gestor/
+
+# Logs and OS/editor files
+*.log
+npm-debug.log*
+yarn-debug.log*
+pnpm-debug.log*
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
