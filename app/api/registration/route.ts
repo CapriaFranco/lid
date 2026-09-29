@@ -34,6 +34,7 @@ export async function POST(request: NextRequest) {
   if (!parsed.success) {
     const fields = new Set(parsed.error.issues.map((issue) => String(issue.path[0] ?? "")));
     const error = fields.has("code") ? "El código debe tener seis letras o números."
+      : fields.has("requestId") ? "La solicitud no es válida. Actualizá la página e intentá de nuevo."
       : fields.has("players") ? "Revisá los nombres y las posiciones requeridas para el sistema elegido."
       : fields.has("color") ? "El color debe contener solo letras y espacios."
       : fields.has("teamName") ? "El nombre del equipo debe tener al menos tres caracteres y solo letras, números y espacios."
