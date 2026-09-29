@@ -1,0 +1,52 @@
+{
+  "name": "vit-2026",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint .",
+    "db:migrate": "node scripts/vit-db.mjs migrate",
+    "db:check": "node scripts/vit-db.mjs check",
+    "db:seed-demo": "node scripts/vit-db.mjs seed-demo",
+    "db:cleanup-demo": "node scripts/vit-db.mjs cleanup-demo",
+    "db:reset-norms": "node scripts/vit-db.mjs migrate && node scripts/vit-db.mjs reset-norms",
+    "db:smoke-registration": "node scripts/vit-db.mjs smoke-registration",
+    "admin:create": "node scripts/create-admin.mjs",
+    "admin:reset-password": "node scripts/reset-admin-password.mjs"
+  },
+  "dependencies": {
+    "@neondatabase/serverless": "^1.0.2",
+    "@radix-ui/react-select": "^2.3.7",
+    "@tiptap/core": "^3.31.3",
+    "@tiptap/extension-subscript": "^3.31.3",
+    "@tiptap/extension-superscript": "^3.31.3",
+    "@tiptap/extension-text-align": "^3.31.3",
+    "@tiptap/pm": "^3.31.3",
+    "@tiptap/react": "^3.31.3",
+    "@tiptap/starter-kit": "^3.31.3",
+    "better-auth": "^1.7.6",
+    "lucide-react": "^1.48.0",
+    "next": "^15.5.3",
+    "pg": "^8.23.0",
+    "postgres": "^3.4.7",
+    "react": "^19.1.1",
+    "react-dom": "^19.1.1",
+    "server-only": "^0.0.1",
+    "zod": "^4.1.5"
+  },
+  "devDependencies": {
+    "@eslint/eslintrc": "^3.3.7",
+    "@types/node": "^22.18.6",
+    "@types/pg": "^8.23.1",
+    "@types/react": "^19.1.13",
+    "@types/react-dom": "^19.1.9",
+    "eslint": "^9.35.0",
+    "eslint-config-next": "^15.5.3",
+    "typescript": "^5.9.2"
+  },
+  "overrides": {
+    "postcss": "^8.5.28"
+  }
+}
