@@ -301,7 +301,7 @@ footer{position:absolute;bottom:25px;left:0;width:100%;text-align:center;color:#
 @media(max-width:640px){.norm-single-sheet{padding:23px 18px}.norm-index{margin-bottom:25px;padding-bottom:19px}.norm-index li a{font-size:11pt;gap:9px}.norm-document-heading{font-size:18pt}.norm-document-block.norm-indent-1{margin-left:15px}.norm-document-block.norm-indent-2{margin-left:30px}.norm-document-block.norm-indent-3{margin-left:45px}.norm-document-block.norm-indent-4{margin-left:60px}.norm-document-prosemirror h2{font-size:18pt}.norm-color-picker{gap:3px;padding:0 5px}.norm-color-picker select{max-width:80px;font-size:9px}.norm-bar-color-picker select{max-width:65px}}
 .norm-document-prosemirror p::before,.norm-document-prosemirror h2::before{content:none}
 
-.norm-script{font-size:inherit;line-height:inherit}
+.norm-script{line-height:inherit}
 
 /* Selectores de color con muestra, nombre y valor legible. */
 .norm-rich-editor{overflow:visible}
