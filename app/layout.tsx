@@ -7,6 +7,9 @@ export const metadata: Metadata = {
   title: "LID | Torneo de vóley 2026",
   description: "Toda la información del Torneo Interno de Vóley LID 2026.",
   applicationName: "LID 2026",
+  icons: {
+    icon: [{ url: "/favicon.ico?v=20260929", type: "image/x-icon" }],
+  },
 };
 
 export const viewport: Viewport = {
