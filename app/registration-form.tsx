@@ -17,6 +17,16 @@ const personPattern = /^[A-Za-zÁÉÍÓÚÜÑáéíóúüñ ]+$/u;
 const teamPattern = /^[A-Za-zÁÉÍÓÚÜÑáéíóúüñ0-9 ]+$/u;
 let playerIdSequence = 0;
 const createClientId = (prefix: string) => `${prefix}-${Date.now().toString(36)}-${(playerIdSequence++).toString(36)}`;
+function createRequestId(): string {
+  if (typeof crypto !== "undefined" && typeof crypto.randomUUID === "function") return crypto.randomUUID();
+  const bytes = new Uint8Array(16);
+  if (typeof crypto !== "undefined" && typeof crypto.getRandomValues === "function") crypto.getRandomValues(bytes);
+  else bytes.forEach((_, index) => { bytes[index] = Math.floor(Math.random() * 256); });
+  bytes[6] = (bytes[6] & 0x0f) | 0x40;
+  bytes[8] = (bytes[8] & 0x3f) | 0x80;
+  const hex = Array.from(bytes, (byte) => byte.toString(16).padStart(2, "0")).join("");
+  return `${hex.slice(0, 8)}-${hex.slice(8, 12)}-${hex.slice(12, 16)}-${hex.slice(16, 20)}-${hex.slice(20)}`;
+}
 const createPlayer = (): Player => ({ id: createClientId("player"), name: "", position: "" });
 const positionsFor = (system: string, type: string) => system === "4:2"
   ? type === "o" ? ["Armador", "Armador", "Opuesto", "Opuesto", "Punta", "Punta"] : ["Armador", "Armador", "Central", "Central", "Punta", "Punta", "Libero"]
@@ -123,7 +133,7 @@ export default function RegistrationForm() {
   async function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault(); if (busy || !canSubmit) return;
     setBusy(true); setMessage("Enviando el registro…"); setSuccess(false);
-    requestId.current ??= createClientId("registration");
+    requestId.current ??= createRequestId();
     try {
       const response = await fetch("/api/registration", {
         method: "POST", headers: { "Content-Type": "application/json", "Idempotency-Key": requestId.current },
