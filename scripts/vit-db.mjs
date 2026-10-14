@@ -10,12 +10,18 @@ require("@next/env").loadEnvConfig(process.cwd());
 const databaseUrl = process.env.DATABASE_URL;
 const adminEmail = process.env.ADMIN_EMAIL || "demo@vit.local";
 if (!databaseUrl) throw new Error("DATABASE_URL is empty; set it in .env.local (preferred) or .env.");
-if (!databaseUrl.startsWith("postgresql://") || !databaseUrl.includes(".neon.tech") || !/sslmode=(?:require|verify-full)/i.test(databaseUrl)) {
-  throw new Error("DATABASE_URL must be a Neon PostgreSQL URL with sslmode=require or sslmode=verify-full.");
+const parsedDatabaseUrl = new URL(databaseUrl);
+const localPostgres = process.env.LID_DATABASE_DRIVER === "postgres"
+  && ["localhost", "127.0.0.1", "::1"].includes(parsedDatabaseUrl.hostname)
+  && parsedDatabaseUrl.port === "55433"
+  && parsedDatabaseUrl.pathname === "/lid_localdev"
+  && process.env.NODE_ENV !== "production";
+if (!databaseUrl.startsWith("postgresql://") || (!localPostgres && (!databaseUrl.includes(".neon.tech") || !/sslmode=(?:require|verify-full)/i.test(databaseUrl)))) {
+  throw new Error("DATABASE_URL must be a Neon PostgreSQL URL, or the explicitly allowed local Docker database at 127.0.0.1:55433/lid_localdev.");
 }
 
 const pool = new pg.Pool({ connectionString: databaseUrl, max: 2, connectionTimeoutMillis: 8000, idleTimeoutMillis: 5000 });
-const migrations = ["migration_vit_registration.sql", "migration_vit_admin.sql", "migration_vit_security.sql", "migration_vit_roster.sql", "migration_vit_norms.sql", "migration_vit_optimization.sql", "migration_vit_admin_dashboard_details.sql", "migration_vit_registration_behavior.sql", "migration_vit_registration_authorization_backfill.sql", "migration_vit_admin_roster_behavior.sql", "migration_vit_admin_team_patch.sql", "migration_vit_norm_content.sql", "migration_vit_norm_rich_editor.sql", "migration_vit_norm_document_validation.sql", "migration_vit_norm_document_validation_hardening.sql", "migration_vit_norm_editor_palette.sql", "migration_vit_norm_text_scripts.sql", "migration_vit_norm_reserved_bar_colors.sql"];
+const migrations = ["migration_vit_registration.sql", "migration_vit_admin.sql", "migration_vit_security.sql", "migration_vit_roster.sql", "migration_vit_norms.sql", "migration_vit_optimization.sql", "migration_vit_admin_dashboard_details.sql", "migration_vit_registration_behavior.sql", "migration_vit_registration_authorization_backfill.sql", "migration_vit_admin_roster_behavior.sql", "migration_vit_admin_team_patch.sql", "migration_vit_norm_content.sql", "migration_vit_norm_rich_editor.sql", "migration_vit_norm_document_validation.sql", "migration_vit_norm_document_validation_hardening.sql", "migration_vit_norm_editor_palette.sql", "migration_vit_norm_text_scripts.sql", "migration_vit_norm_reserved_bar_colors.sql", "migration_vit_system_admin.sql", "migration_vit_team_soft_delete.sql", "migration_vit_capacity_overrides.sql", "migration_vit_admin_capacity_overview.sql", "migration_vit_restore_over_capacity.sql"];
 
 async function migrate() {
   await pool.query("CREATE TABLE IF NOT EXISTS vit_schema_migrations (name text PRIMARY KEY, applied_at timestamptz NOT NULL DEFAULT now())");

@@ -7,17 +7,21 @@ build/
 dist/
 coverage/
 *.tsbuildinfo
+__pycache__/
 
 # Local environment files. Only the blank template is tracked.
 .env
 .env.*
 !.env.example
+.env.test-docker
+.backups-local/
 
 # Local-only planning and source material
 PENDIENTES.md
 VIT-Pormenorizado-*.pdf
 VIT Pormenorizado 2026.md
 vit-gestor/
+/qr/
 
 # Logs and OS/editor files
 *.log
@@ -28,3 +32,5 @@ pnpm-debug.log*
 Thumbs.db
 .idea/
 .vscode/
+
+.env.test-docker

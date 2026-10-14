@@ -7,7 +7,7 @@ import { FormSelect } from "@/app/components/form-select";
 
 type Course = "1ro" | "2do" | "3ro" | "4to" | "5to" | "6to" | "7mo";
 type Player = { id: string; name: string; position: string };
-type Capacity = { curso: string; division: string; cantidad: number };
+type Capacity = { curso: string; division: string; cantidad: number; limite: number };
 type ExistingColor = { color: string; ciclo: "basico" | "superior" };
 const courses: Course[] = ["1ro", "2do", "3ro", "4to", "5to", "6to", "7mo"];
 const isBasic = (course: string) => ["1ro", "2do", "3ro"].includes(course);
@@ -68,7 +68,7 @@ export default function RegistrationForm() {
     if (!course) return [];
     const candidates = divisionsFor(course);
     if (!capacityAvailable) return candidates;
-    return candidates.filter((value) => (capacities.find((item) => item.curso === course && item.division === value)?.cantidad ?? 0) < 2);
+    return candidates.filter((value) => { const slot = capacities.find((item) => item.curso === course && item.division === value); return (slot?.cantidad ?? 0) < (slot?.limite ?? 2); });
   }, [course, capacities, capacityAvailable]);
   const minimum = minFor(system, systemType);
   const requiredPositions = useMemo(() => positionsFor(system, systemType), [system, systemType]);

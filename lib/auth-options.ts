@@ -14,12 +14,19 @@ export function getAuthOptions() {
 
   pool ??= new Pool({ connectionString: databaseUrl, max: 5, idleTimeoutMillis: 10_000, connectionTimeoutMillis: 5_000 });
 
+  const trustedOrigins = new Set([appUrl]);
+  if (process.env.NODE_ENV !== "production") {
+    const port = new URL(appUrl).port || "3000";
+    trustedOrigins.add(`http://localhost:${port}`);
+    trustedOrigins.add(`http://127.0.0.1:${port}`);
+  }
+
   return {
     appName: "LID 2026",
     baseURL: appUrl,
     secret,
     database: pool,
-    trustedOrigins: [appUrl],
+    trustedOrigins: [...trustedOrigins],
     emailAndPassword: {
       enabled: true,
       disableSignUp: true,

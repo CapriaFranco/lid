@@ -1,10 +1,11 @@
-import { ArrowUpRight, BookOpenText, ClipboardPenLine, MessageCircleMore, UsersRound } from "lucide-react";
+import { ArrowUpRight, BookOpenText, ClipboardPenLine, Download, MessageCircleMore, UsersRound } from "lucide-react";
 
 const year = new Date().getFullYear();
 const links = [
   { title: "Normas", detail: "Reglamento del torneo", href: "/normas", icon: BookOpenText },
   { title: "Registro", detail: "Inscribí a tu equipo", href: "/registro", icon: ClipboardPenLine },
   { title: "Equipos", detail: "Registrados de momento", href: "/equipos", icon: UsersRound },
+  { title: "Autorizaciones", detail: "Descargá el formulario general LID 2026", href: "/autorizaciones", icon: Download },
   { title: "WhatsApp", detail: "Ingresá al grupo para recibir información", href: "https://chat.whatsapp.com/CbpE4tkN2kMAoaTlkQXSLr", icon: MessageCircleMore, external: true },
 ];
 
